@@ -1,6 +1,9 @@
 package com.example.hexagonalarchitecture.user.application.config;
 
+import com.example.hexagonalarchitecture.user.application.service.LoginUsuarioService;
 import com.example.hexagonalarchitecture.user.application.service.RegistrarUsuarioService;
+import com.example.hexagonalarchitecture.user.domain.port.in.LoginUsuarioUseCase;
+import com.example.hexagonalarchitecture.user.domain.port.in.RegistrarUsuarioUseCase;
 import com.example.hexagonalarchitecture.user.domain.port.out.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +12,14 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfig {
 
     @Bean
-    public RegistrarUsuarioService registrarUsuarioUseCase(
+    public RegistrarUsuarioUseCase registrarUsuarioUseCase(
             UsuarioRepository usuarioRepository) {
         return new RegistrarUsuarioService(usuarioRepository);
+    }
+
+    @Bean
+    public LoginUsuarioUseCase loginUsuarioUseCase(
+            UsuarioRepository usuarioRepository) {
+        return new LoginUsuarioService(usuarioRepository);
     }
 }

@@ -4,8 +4,9 @@ import com.example.hexagonalarchitecture.user.domain.model.Usuario;
 import com.example.hexagonalarchitecture.user.domain.port.out.UsuarioRepository;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.SpringDataUsuarioRepository;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.UsuarioEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class UsuarioRepositoryJpaAdapter implements UsuarioRepository {
@@ -24,6 +25,16 @@ public class UsuarioRepositoryJpaAdapter implements UsuarioRepository {
                 usuario.getPassword()
         );
         repository.save(entity);
+    }
+
+    @Override
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return repository.findByEmail(email)
+                .map(entity -> new Usuario(
+                        entity.getNombre(),
+                        entity.getEmail(),
+                        entity.getPassword()
+                ));
     }
 }
 
