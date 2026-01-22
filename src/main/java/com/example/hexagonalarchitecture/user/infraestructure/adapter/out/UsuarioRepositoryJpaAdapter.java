@@ -1,7 +1,7 @@
 package com.example.hexagonalarchitecture.user.infraestructure.adapter.out;
 
 import com.example.hexagonalarchitecture.user.domain.model.Usuario;
-import com.example.hexagonalarchitecture.user.domain.port.out.UsuarioRepository;
+import com.example.hexagonalarchitecture.user.domain.port.out.UsuarioRepositoryPort;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.SpringDataUsuarioRepository;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.UsuarioEntity;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UsuarioRepositoryJpaAdapter implements UsuarioRepository {
+public class UsuarioRepositoryJpaAdapter implements UsuarioRepositoryPort {
 
     private final SpringDataUsuarioRepository repository;
 

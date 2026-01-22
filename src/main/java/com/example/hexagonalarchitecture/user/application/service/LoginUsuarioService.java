@@ -2,26 +2,36 @@ package com.example.hexagonalarchitecture.user.application.service;
 
 import com.example.hexagonalarchitecture.user.domain.model.Usuario;
 import com.example.hexagonalarchitecture.user.domain.port.in.LoginUsuarioUseCase;
-import com.example.hexagonalarchitecture.user.domain.port.out.UsuarioRepository;
+import com.example.hexagonalarchitecture.user.domain.port.out.UsuarioRepositoryPort;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+
 
 public class LoginUsuarioService implements LoginUsuarioUseCase {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepositoryPort usuarioRepositoryPort;
+    private final PasswordEncoder passwordEncoder;
 
-    public LoginUsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public LoginUsuarioService(
+            UsuarioRepositoryPort usuarioRepositoryPort,
+            PasswordEncoder passwordEncoder
+    ) {
+        this.usuarioRepositoryPort = usuarioRepositoryPort;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public String login(String email, String password) {
+    public Usuario login(String email, String password) {
 
-        Usuario usuario = usuarioRepository.buscarPorEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+        Usuario usuario = usuarioRepositoryPort.buscarPorEmail(email)
+                .orElseThrow(() -> new RuntimeException("Credenciales inválidas"));
 
-        if (!usuario.getPassword().equals(password)) {
-            throw new RuntimeException("Contraseña incorrecta");
+        if (!passwordEncoder.matches(password, usuario.getPassword())) {
+            throw new RuntimeException("Credenciales inválidas");
         }
 
-        return usuario.getNombre();
+        return usuario;
     }
 }
+
+
