@@ -2,7 +2,7 @@ package com.example.hexagonalarchitecture.user.domain.port.in;
 
 import com.example.hexagonalarchitecture.user.domain.model.Usuario;
 
-public interface LoginUsuarioUseCase {
-    Usuario login(String email, String password);
+public interface ObtenerUsuarioAutenticadoUseCase {
+    Usuario obtenerUsuarioActual(String email);
 }
 

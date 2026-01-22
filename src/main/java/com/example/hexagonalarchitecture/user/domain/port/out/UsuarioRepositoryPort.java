@@ -4,7 +4,7 @@ import com.example.hexagonalarchitecture.user.domain.model.Usuario;
 
 import java.util.Optional;
 
-public interface UsuarioRepository {
+public interface UsuarioRepositoryPort {
     void guardar(Usuario usuario);
     Optional<Usuario> buscarPorEmail(String email);
 
