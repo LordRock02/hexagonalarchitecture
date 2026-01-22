@@ -1,10 +1,7 @@
 package com.example.hexagonalarchitecture.user.infraestructure.adapter.in;
 
 import com.example.hexagonalarchitecture.user.domain.port.in.LoginUsuarioUseCase;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
