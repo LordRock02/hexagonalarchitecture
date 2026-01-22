@@ -1,5 +1,6 @@
 package com.example.hexagonalarchitecture.user.infraestructure.adapter.in;
 
+import com.example.hexagonalarchitecture.user.application.service.RefreshTokenService;
 import com.example.hexagonalarchitecture.user.domain.model.Usuario;
 import com.example.hexagonalarchitecture.user.domain.port.in.LoginUsuarioUseCase;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.RefreshTokenEntity;
@@ -22,17 +23,20 @@ public class AuthController {
     private final JwtService jwtService;
     private final RefreshTokenJpaRepository refreshTokenRepository;
     private final SpringDataUsuarioRepository usuarioJpaRepository;
+    private final RefreshTokenService refreshTokenService;
 
     public AuthController(
             LoginUsuarioUseCase loginUsuarioUseCase,
             JwtService jwtService,
             RefreshTokenJpaRepository refreshTokenRepository,
-            SpringDataUsuarioRepository usuarioJpaRepository
+            SpringDataUsuarioRepository usuarioJpaRepository,
+            RefreshTokenService refreshTokenService
     ) {
         this.loginUsuarioUseCase = loginUsuarioUseCase;
         this.jwtService = jwtService;
         this.refreshTokenRepository = refreshTokenRepository;
         this.usuarioJpaRepository = usuarioJpaRepository;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/login")
@@ -67,6 +71,14 @@ public class AuthController {
                 usuario.getNombre()
         );
     }
+
+    @PostMapping("/refresh")
+    public RefreshResponseDTO refresh(@RequestBody RefreshRequest request) {
+        String newAccessToken = refreshTokenService.refresh(request.refreshToken());
+        return new RefreshResponseDTO(newAccessToken);
+    }
+
+
 }
 
 
