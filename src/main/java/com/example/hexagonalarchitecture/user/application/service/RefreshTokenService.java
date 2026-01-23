@@ -34,8 +34,8 @@ public class RefreshTokenService implements RefreshTokenUseCase {
         }
 
         UsuarioEntity usuario = tokenEntity.getUsuario();
-        UserDetailsImpl userDetails = new UserDetailsImpl(usuario);
-        return jwtService.generateToken(userDetails);
 
+        return jwtService.generateToken(usuario.getEmail(), usuario.getNombre());
     }
+
 }

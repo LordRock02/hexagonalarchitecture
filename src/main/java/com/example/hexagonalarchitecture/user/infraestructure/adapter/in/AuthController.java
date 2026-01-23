@@ -3,12 +3,15 @@ package com.example.hexagonalarchitecture.user.infraestructure.adapter.in;
 import com.example.hexagonalarchitecture.user.application.service.RefreshTokenService;
 import com.example.hexagonalarchitecture.user.domain.model.Usuario;
 import com.example.hexagonalarchitecture.user.domain.port.in.LoginUsuarioUseCase;
+import com.example.hexagonalarchitecture.user.domain.dto.AuthResponseDTO;
+import com.example.hexagonalarchitecture.user.domain.dto.LoginRequestDTO;
+import com.example.hexagonalarchitecture.user.domain.dto.RefreshRequestDTO;
+import com.example.hexagonalarchitecture.user.domain.dto.RefreshResponseDTO;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.RefreshTokenEntity;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.RefreshTokenJpaRepository;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.SpringDataUsuarioRepository;
 import com.example.hexagonalarchitecture.user.infraestructure.persistence.UsuarioEntity;
 import com.example.hexagonalarchitecture.user.infraestructure.security.JwtService;
-import com.example.hexagonalarchitecture.user.infraestructure.security.UserDetailsImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -40,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
+    public AuthResponseDTO login(@RequestBody LoginRequestDTO request) {
 
         Usuario usuario = loginUsuarioUseCase.login(
                 request.email(),
@@ -51,9 +54,8 @@ public class AuthController {
                 .findByEmail(usuario.getEmail())
                 .orElseThrow();
 
-        UserDetailsImpl userDetails = new UserDetailsImpl(usuarioEntity);
+        String accessToken = jwtService.generateToken(usuarioEntity.getEmail(), usuarioEntity.getNombre());
 
-        String accessToken = jwtService.generateToken(userDetails);
         String refreshToken = UUID.randomUUID().toString();
 
         refreshTokenRepository.save(
@@ -65,7 +67,7 @@ public class AuthController {
                 )
         );
 
-        return new AuthResponse(
+        return new AuthResponseDTO(
                 accessToken,
                 refreshToken,
                 usuario.getNombre()
@@ -73,7 +75,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public RefreshResponseDTO refresh(@RequestBody RefreshRequest request) {
+    public RefreshResponseDTO refresh(@RequestBody RefreshRequestDTO request) {
         String newAccessToken = refreshTokenService.refresh(request.refreshToken());
         return new RefreshResponseDTO(newAccessToken);
     }
