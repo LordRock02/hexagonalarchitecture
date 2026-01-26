@@ -84,6 +84,42 @@ La aplicación quedará disponible en:
 
 http://localhost:8080
 
+🧪 Pruebas Unitarias (Testing)
+El proyecto cuenta con una suite de pruebas robusta utilizando JUnit 5, Mockito y JaCoCo.
+
+Las pruebas cubren:
+
+🧠 Dominio: Lógica de negocio y validaciones.
+
+⚙️ Aplicación: Servicios de orquestación y casos de uso.
+
+🛡️ Infraestructura: Controladores REST y filtros de seguridad.
+
+🔌 Seguridad: Generación y validación de tokens JWT.
+
+Ejecutar las pruebas
+Para correr todos los tests definidos en el proyecto:
+
+./mvnw test
+
+📊 Reporte de Cobertura (Coverage)
+Para ejecutar las pruebas y generar un reporte detallado de qué porcentaje del código está siendo probado:
+
+./mvnw clean test jacoco:report
+Este comando generará:
+
+Resultado en consola.
+
+Una carpeta target/site/jacoco/ con los reportes visuales.
+
+Un archivo target/site/jacoco/jacoco.xml (reporte estándar).
+
+Visualizar el reporte gráficamente
+Puedes ver el reporte detallado abriendo el archivo HTML generado en tu navegador:
+
+# Abre este archivo en Chrome/Firefox/Edge
+target/site/jacoco/index.html
+
 👥 Autores
 
 Adrian Rincon
